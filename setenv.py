@@ -41,37 +41,37 @@ def get_auth_page(app_id):
 
 def set_env():
     while True:
-        tg_token = input('Токен Telegram бота: ')
+        tg_token = input('tg bot token: ')
         tg_token = tg_token.strip()
         try:
-            print('⏳ Проверяем токен...')
+            print('Checking token...')
             check_token(tg_token)
             break
         except HTTPError:
-            print('❌ Токен бота неверный или нерабочий, попробуйте снова!')
+            print('Wrong or notworking tg bot token. Try again!')
 
     while True:
-        vk_app_id = input('VK APP ID (можно оставить пустым): ')
+        vk_app_id = input('VK APP ID (may leave empty): ')
         vk_app_id = vk_app_id.strip()
         if vk_app_id:
             try:
                 get_auth_page(vk_app_id)
                 break
             except HTTPError:
-                print('❌ VK APP ID неверный, попробуйте снова!')
+                print('wrong VK APP ID!')
         else:
-            print('ℹ️ Будет использован VK APP ID {} от Kate Mobile'.format(VK_APP_ID))
+            print('will be used VK APP ID {} from Kate Mobile'.format(VK_APP_ID))
             break
 
     with open(ENV_FILE, 'w') as env_file:
         env_file.write(
             ENV_FILE_TEMPLATE % {'tg_token': tg_token, 'vk_app_id': vk_app_id or VK_APP_ID, 'allowed_user_ids': ''})
 
-    print('✅ Переменные успешно установлены в {}'.format(ENV_FILE))
+    print('Env variables are successfully set {}'.format(ENV_FILE))
 
 
 if __name__ == '__main__':
     try:
         set_env()
     except KeyboardInterrupt:
-        print('\n⚠️ Настройка переменных окружуения была прервана!')
+        print('\nEnv variables setup interrupted!')
