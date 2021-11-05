@@ -1,4 +1,4 @@
-import urllib
+mport urllib
 from concurrent.futures._base import CancelledError, TimeoutError
 
 from aiogram.utils.markdown import quote_html, hlink
@@ -502,6 +502,11 @@ async def process_longpoll_event(api, new_event):
         return
 
         data.is_out = True
+
+    # 44 - evil chat, 68 - atlantida chat
+    if data.chat_id in [43,44,68]:
+        return
+
 
     data.full_text = new_event[5].replace('<br>', '\n')
 
